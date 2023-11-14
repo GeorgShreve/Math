@@ -1,0 +1,93 @@
+\documentclass{report}
+\usepackage{setspace}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsthm,amsmath,graphicx}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage[bottom=0.5cm, right=1.5cm, left=1.5cm, top=1.5cm]{geometry}
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\providecommand{\norm}[1]{\lVert#1\rVert}
+\providecommand{\inn}[1]{\langle#1\rangle}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\N}{\mathbb{N}}
+\DeclareMathOperator{\Ima}{Im}
+\DeclareMathOperator{\Kera}{Ker}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\log}{log}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem{intu}{Intuition}
+\newtheorem{rmk}{Remark}
+\newtheorem{problem}{Problem}
+
+\begin{document}
+\begin{problem}
+  Suppose $f:\R\to\R$ is infinitely differentiable and there exists some $k$ such that the $k$th derivative is zero everywhere. Then $f$ is a polynomial.
+\end{problem}
+
+\begin{proof}  
+Suppose $f:\R\to \R$ is infinitely differentiable and there exists some natural $k$ such that $f^{(k)}(x)\equiv 0$. We proceed by induction to show that $f$ is a polynomial. Indeed we have shown in previous homework that $k=1$ implies the function is constant, and $k=2$ implies the function is linear (both of which are polynomials). So suppose it holds for $n$ and let $f$ be a function as above such that $f^{(n+1)}(x)\equiv 0$. Let $g=f^{(n)}$, then $g$ is infinitely differentiable because $f$ is, and $g'=0$, so by induction $g$ is a polynomial. Since the derivative of a polynomial is also a polynomial, we are done.
+\end{proof}
+
+\begin{problem}
+  Let $f:\R\to\R$ be twice differentiable. Then
+  \[
+    f''(x) =  \lim_{h\to 0}\frac{f(x+h)-2f(x)+f(x-h)}{h^2}.
+  \]
+\end{problem}
+
+\begin{proof}
+  Let $f:\R\to \R$ be a twice differentiable function. We recall that a function being differentiable at a point implies its one sided derivatives exist and are equal at that point. Thus we have
+  \[
+    \lim_{h\to 0^+}\frac{f(x)-f(x-h)}{h}=\lim_{h\to 0^-} \frac{f(x+h)-f(x)}{h}=f'(x)=\lim_{h\to 0^+} \frac{f(x+h)-f(x)}{h}.
+  \]
+  Thus
+  \[
+    \lim_{h\to 0}\frac{f(x+h)-2f(x)+f(x-h)}{h^2}=\lim_{h\to 0} \frac{[f(x+h)-f(x)]-[f(x)-f(x-h)]}{h^2},\]
+  but by the above the numerator of the last equation goes to zero with $h$, and clearly so does the denominator, thus we consider the derivates
+  \[
+    \lim_{h\to 0} \frac{f'(x+h)-f'(x-h)}{2h} = \frac{1}{2}\lim_{h\to 0} \frac{f'(x+h)-f(x)}{h}+\frac{f'(x)-f'(x-h)}{h}=\frac{1}{2}(f''(x)+f''(x))=f''(x)
+  \]
+  and by l'hopitals rule the theorem is proved.
+\end{proof}
+
+\begin{problem}
+  Suppose $f:\R\to\R_{>0}$ is differentiable and satisfies f(0)=1, $\abs{f'(x)}\leq f(x)$ for all $x\in\R$. Then there exists some $c\in\R$ such that for all $x\in \R$, $f(x)\leq ce^{c\abs{x}}$.
+\end{problem}
+
+\begin{proof}
+  Suppose $f:\R\to \R_>$  is a differentiable function satisfying $f(0)=1$ and $\abs{f'(x)}\leq f(x)$ for all $x\in \R$. We will prove that $\exists c\in \R$ such that $f(x)\leq ce^{c\abs{x}}$. Let $f(x)=e^{g(x)}$ so that $g(x)=\log(f(x))$. Then $g(0)=\log(f(0))=log(1)=0$. Since $g'(x)=f'(x)/f(x)$ we have by assumption $\abs{g'(x)}\leq 1$. By Thm 2.8 for any $a,b\in \R$ we must have $\abs{g(a)-g(b)}\leq \abs{a-b}$, taking $a=0$ we then have $\abs{g(b)}\leq \abs{b}$ for all $b\in \R$. We can expand this using a basic fact about the absolute value to find $g(x)\leq \abs{g(x)}\leq \abs{x}$ whence finally $e^{g(x)}\leq e^\abs{x}$, but this is precisely $f(x)\leq ce^{c\abs{x}}$ for $c=1$, so we are done.
+\end{proof}
+
+\begin{problem}
+  We approximate $\int_0^1 e^{-x^2}dx$ to the third decimal place (a little more) using the taylor series for the function and prove the error bound is nice and small.
+\end{problem}
+
+\begin{proof}
+  We wish to approximate the integral $\int_0^1e^{-x^2}dx$ to the third decimal place by a taylor series. Clearly $e^{-x}, e^{-x^2}$ are differentiable everywhere on our interval, so we need not worry about $C^k$ conditions. We know that $e^{-x^2}=P_{0,k}+R_{0,k}$, and that the polynomial is easier to calculate, so we can approach this problem by finding $k$ so that the remainder is minimal. We consult Corollary 2.61 to obtain
+  \[\abs{R_{0,k}(e^{-x^2})(x)}=\abs{R_{0,k}(e^{-t})(x^2)}\leq \frac{e^{-x^2}}{(k+1)!}(x^2)^{k+1},\]
+  noting that we only care about $x\in [0,1]$ we see that the $e^{-x^2}$ has a maximal value of $1$ on this interval. We can then create an overly loose upper bound as
+  \[\abs{R_{0,k}(e^{-x^2})(x)}\leq \frac{x^{2k+2}}{(k+1)!}.\]
+    So long as $k$ is odd the first term of the polynomial expansion $R_{0,k}(e^{-x^2})(x)$ is positive and thus the function is positive on $[0,1]$, so that in particular its equivalent to its absolute value. Then
+    \[\int_0^1\abs{R_{0,k}(e^{-x^2})(x)}dx=\int_0^1 R_{0,k}(e^{-x^2})(x)dx\leq \int_0^1 \frac{x^{2k+2}}{(k+1)!}dx=\frac{1}{(2k+3)(k+1)!},\]
+    and so we can calculate the minimal \textit{odd} $k$ such that $\frac{1}{(2k+3)(k+1)!}\leq 10^4$. Indeed we find $k=7$ to obey this property, and one can verify this relatively easily.
+      Substituting $-x^2$ into the taylor series for $e^x$ we have
+    \[\int_0^1 e^{-x^2}dx=\int_0^1 1-x^2+\frac{x^4}{2}-\frac{x^6}{3!}+\frac{x^8}{4!}-\frac{x^{10}}{5!}+\frac{x^{12}}{6!}-\frac{x^{12}}{7!} dx\]
+    integrating we find this to be $0.745$ when rounded to the third decimal place. Thus $\int_0^1 e^{-x^2}dx\approx 0.745$ where the error is less than or equal to $\frac{1}{14(8!)}<10^{-4}$. Thus the proof is complete.
+\end{proof}
+
+\begin{problem}
+  Let $f,g$ be differentiable functions $\R\to\R$ so that $f'(x)\leq g'(x)$ for all $x\in \R$. Then for all $a\leq b$ we have $f(b)-f(a)\leq g(b)-g(a)$.
+\end{problem}
+
+\begin{proof}
+  Let $f,g$ be two differentiable functions so that $f'(x)\leq g'(x)$ for all $x\in \R$. Let $h(x)=g(x)-f(x)$, then $h'(x)=g'(x)-f'(x)\geq 0$ so by Thm 2.8 $h(x)$ is increasing. This is to say that for any $a\leq b$ we have $h(a)\leq h(b)$, but this is precisely $g(a)-f(a)\leq g(b)-f(b)$ which is equivalent to the statement we wished to prove, and so we are done.
+\end{proof}
+\end{document}

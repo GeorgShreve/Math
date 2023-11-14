@@ -1,0 +1,97 @@
+\documentclass{report}
+\usepackage{setspace}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsthm,amsmath,graphicx}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage[bottom=0.5cm, right=1.5cm, left=1.5cm, top=1.5cm]{geometry}
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\providecommand{\norm}[1]{\lVert#1\rVert}
+\providecommand{\inn}[1]{\langle#1\rangle}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\A}{\textbf{A}}
+
+\DeclareMathOperator{\Ima}{Im}
+\DeclareMathOperator{\Kera}{Ker}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\deg}{deg}
+\DeclareMathOperator{\min}{min}
+\DeclareMathOperator{\sup}{sup}
+\DeclareMathOperator{\inf}{inf}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem{intu}{Intuition}
+\newtheorem{rmk}{Remark}
+\newtheorem{problem}{Problem}
+
+\begin{document}
+
+\section{Problem 1}
+Suppose the opposite, that is $f$ is integrable on $[a,b]$ but not on $[c,d]\subseteq [a,b]$. Then for some $\epsilon_{0}>0$ there does not exist a partition $P$ of $[a,b]$ such that $S_{P\cap [c,d]}f\mid_{[c,d]}-s_{P\cap [c,d]}f\mid_{[c,d]}\leq \epsilon$. By extension for all partitions $P$ of $[a,b]$ we have $S_{P\cap [c,d]}f\mid_{[c,d]}-s_{P\cap [c,d]}f\mid_{[c,d]}\geq \epsilon_{0}$. If $f$ is integrable on $[a,b]$, we must have $\inf_{P}\{S_{P}f\}=\sup_{P}\{s_{P}f\}$. Consider the intervals $[a,c],[d,b]$ so that for any partition $P$ of $[a,b]$ we have
+\[S_{P}f=S_{P\cap [a,c]}f\mid_{[a,c]}+S_{P\cap [c,d]}f\mid_{[c,d]}+S_{P\cap [d,b]}f\mid_{[d,b]}\]
+and
+\[s_{P}f=s_{P\cap [a,c]}f\mid_{[a,c]}+s_{P\cap [c,d]}f\mid_{[c,d]}+s_{P\cap [d,b]}f\mid_{[d,b]}.\]
+But then since $S_{Q}g\geq s_{Q}g$ for a function $g$ and partition $Q$,
+\begin{multline*}
+  S_{P}f-s_{P}f=(S_{P\cap [a,c]}f\mid_{[a,c]}-S_{P\cap [a,c]}f\mid_{[a,c]})+(S_{P\cap [c,d]}f\mid_{[c,d]}-S_{P\cap [c,d]}f\mid_{[c,d]})+(S_{P\cap [d,b]}f\mid_{[d,b]}-S_{P\cap [d,b]}f\mid_{[d,b]}) \\
+  \geq (S_{P\cap [c,d]}f\mid_{[c,d]}-S_{P\cap [c,d]}f\mid_{[c,d]}) \geq \epsilon >0,
+\end{multline*}
+whence $f$ is not integrable on $[a,b]$ and we reach contradiction. Thus $f$ is integrable on $[c,d]$ and we are done.
+
+\section{Problem 2}
+Let $h=g(x)-f(x)$. Since both are integrable on $[a,b]$, so is $h$ by Thm 4.6. By supposition, $h(x)\geq 0$ for all $x\in [a,b]$, so that $s_{P}h\geq 0$ for all partitions $P$ of $[a,b]$, and so in particular $\int_{a}^{b}h(x)dx\geq 0$. But then $\int_{a}^{b}g(x)dx-\int_{a}^{b}f(x)dx\geq 0$ and the result follows directly, so we are done.
+
+\section{Problem 3}
+Let $\epsilon>0$ be a real, and $P$ a partition of $[a,b]$ satisfying $S_{P}f-s_{P}f< \epsilon$, which exists by integrability. Let $x_{i}, x_{i-1}\in S$ be the endpoints of a sub-interval of $[a,b]$ defined by $P$. We let  $M_{i}(f)=\sup\{f(x)\mid x\in[x_{i-1},x_{i}]\}$ and $m_{i}(f)=\inf\{f(x)\mid x\in [x_{i-1},x_{i}]\}.$ We see that $M_{i}(\abs{f}),m_{i}(\abs{f})$ must be either $\abs{M_{i}(f}}$ or $\abs{m_{i}(f)}$ (and not the same unless they are equal). Then we have the following cases 
+\begin{enumerate}
+ \item If $M_{i}(f)\geq m_{j}(f)\geq 0$ then $M_{i}(\abs{f})-m_{i}(\abs{f})=M_{i}(f)-m_{i}(f)$.
+ \item If $M_{i}(f)\geq 0 > m_{i}(f)$ and $\abs{M_{i}(f)}\geq \abs{m_{i}(f)}$ then $M_{i}(\abs{f})-m_{i}(\abs{f})=\abs{M_{i}(f)}-\abs{m_{i}(f)}\leq \abs{M_{i}(f)}+\abs{m_{i}(f)} = M_{i}(f)-m_{i}(f).$
+ \item If $M_{i}(f)\geq 0>m_{i}(f)$ and $\abs{m_{i}(f)}>\abs{M_{i}(f)}$ then $M_{i}(\abs{f})-m_{i}(\abs{f}) = \abs{m_{i}(f)}-\abs{M_{i}(f)} \leq \abs{M_{i}(f)}+\abs{m_{i}(f)} = M_{i}(f)-m_{i}(f)$.
+ \item If $0>M_{i}(f)\geq m_{i}(f)$ then $M_{i}(\abs{f})-m_{i}(\abs{f})=\abs{m_{i}(f)}-\abs{M_{i}(f)}=M_{i}(f)-m_{i}(f)$.
+\end{enumerate}
+We can then verify that $S_{P}\abs{f}-s_{P}\abs{f}\leq S_{P}f-s_{P}f< \epsilon$ since the terms $(M_{i}\abs{f}-m_{i}\abs{f})(x_{i}-x_{i-1})\leq (M_{i}f-m_{i}f)(x_{i}-x_{i-1})$. Thus $\abs{f}$ is integrable on $[a,b]$. Let $P$ be a partition of $[a,b]$. Since $\abs{f(x)}\geq f(x)$ for all $x\in [a,b]$ we have $M_{i}(\abs{f})\geq M_{i}f$, whence
+\[\abs{S_{P}f}=\abs{\sum_{x_{i}\in P} M_{i}(f)(x_{i}-x_{i-1})}\leq \sum_{x_{i}\in P}\abs{M_{i}(f)}(x_{i}-x_{i})\leq \sum_{x_{i}\in P}M_{i}(\abs{f)}(x_{i}-x_{i-1})=S_{P}\abs{f}.\]
+Since $f$ and $\abs{f}$ are integrable, they are both equal to the infinimum of the above sums over all partitions. The result follows directly.
+
+  
+  
+
+\section{Problem 4}
+\begin{proof}
+  It suffices to show that the negation of two implies one. Indeed, suppose $f:[a,b]\to \R$ is continous and $f(x)$ is not the constant zero function. Then for some $k\in [a,b]$, $f(k)\neq 0$. Let $r$ be a real number such that $0\leq r\leq f^{2}(k)$. Then by the continuity of $f$, there exists some interval $I=[k-\delta, k+\delta]\subseteq [a,b]$ so that for all $x\in I$, $\abs{f^{2}(k)-f^{2}(x)}\leq r$. We can take $I$ to be closed since we may always pick an arbitrarily smaller closed subset of an open set. Let $n=\min\{f^{2}(x)\mid x\in I\}$, noting that $n>0$ since $f^{2}$ is non-zero on $I$ by construction, and consider the partition $P=\{a,k-\delta, k+\delta, b\}$. Since $f^{2}(x)\geq 0$ everywhere, we have
+  \[
+    s_{P}f^{2}\geq s_{[a,k-\delta]}f^{2}+nk+s_{[k+\delta,b]}f^{2}\geq nk\geq 0,
+  \]
+  whence since $\int f^{2}(x)dx\geq s_{Q}f^{2}$ for all partitions, it must be non-zero, and we are done.
+\end{proof}
+
+
+\section{Problem 1}
+I showed the following result in my proof that the function above was continous in HW 2. 
+\begin{lemma}
+  Let $a$ be irrational. Then given $k\in \N_{>0}$ there exists some interval $I$ containing $a$ so that $f(x)\leq 1/k$ for all $x\in I$.
+\end{lemma}
+
+Suppose $\epsilon>0$ is a real number. If $\epsilon\geq 1$ it suffices to let $P=[0,1]$ since $f\leq 1$ everywhere. Else suppose $0< \epsilon<1$ and let $r$ be the least integer so that $\frac{1}{r}<\epsilon$.
+
+Let $S_{0}=\{p/q\mid (p,q)=1, 1<q\leq r+1 \}$ and in turn $S=S_{0}\cap [0,1]$. One can verify that neither $0$ or $1$ are in $S$. Further we note that $S$ contains at most a finite number of elements, since their are a finite number of possible number of denominators $q$.
+Let $h/k\in S$. Since we may always choose an irrational arbitrarily close to any rational, we must by our lemma be able to construct an interval $I_{h/k}$ around some such irrational containing $h/k$ and obeying $f(x)\leq 1/k$ for all $x\in I_{h/k}$. Since the last property holds on all subintervals and we may simply drag the neccesary irrational closer, $I_{h/k}$ can be made arbitrarily small.
+
+For clarity we will treet our partition as if it contains actual intervals, instead of simply the endpoints that define the intervals. Let $P=\{I_{h/k}\mid h/k\in S$, and $Q$ be the intervals that make up the rest of $[0,1]$. We note that since $P$ contains finitely many intervals, so must $Q$. Let $X=P\cup Q$ be the partition for $[0,1]$. Since every interval contains an irrational, $S_{L}f-s_{L}f=S_{L}f$ for all partitions $L$. We then see
+\[S_{X}f=\sum_{h/k\in S}\frac{1}{k}\delta_{h/k}+\sum_{x_{i}\in Q}} M_{i}(x_{i+1}-x_{i})\leq \sum_{h/k\in S}\frac{1}{k}\delta_{h/k}+\frac{1}{r+1}\sum_{x_{i}\in Q}} (x_{i+1}-x_{i})\]
+where $\delta$ can be chosen arbitrarily small by the above. By defintion $S$ cannot be trivial, so the combined lengths of the intervals in $Q$ is strictly less than $1$. Thus
+\[
+  \sum_{h/k\in S}\frac{1}{k}\delta_{h/k}+\frac{1}{r+1}\sum_{x_{i}\in Q}} (x_{i+1}-x_{i})< \sum_{h/k\in S}\frac{1}{k}\delta_{h/k} +\frac{1}{r+1}
+\]
+where since the remaining sum can be made arbitrarily small, $S_{X}f\leq\frac{1}{r+1}<\frac{1}{r}\leq \epsilon$. We are done.
+
+ \end{document}

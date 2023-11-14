@@ -1,0 +1,379 @@
+\documentclass{report}
+\usepackage{setspace}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsthm,amsmath,graphicx}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{quiver}
+
+\usepackage[bottom=0.5cm, right=1.5cm, left=1.5cm, top=1.5cm]{geometry}
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\providecommand{\norm}[1]{\lVert#1\rVert}
+\providecommand{\inn}[1]{\langle#1\rangle}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\N}{\mathbb{N}}
+\DeclareMathOperator{\im}{Im}
+\DeclareMathOperator{\ker}{Ker}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\aut}{Aut}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem{intu}{Intuition}
+\newtheorem{rmk}{Remark}
+\newtheorem{problem}{Problem}
+
+\begin{document}
+\begin{singlespace}
+
+\setcounter{chapter}{-1}
+  
+\chapter{Notation}
+We will use $\leq, \trianglelefteq,\subseteq,$ etc as our general inclusions, and $<,\triangleleft,\subset,$ etc as our proper inclusions.
+\chapter{Basic Group Theory}
+  \section{Group Actions}
+  Let $X$ be a set and $G$ a group, a mapping $G\times X\to X$ is a \textbf{group action} if
+  \begin{enumerate}
+  \item $e\cdot x=x$
+  \item $(gh)\cdot x = g\cdot(h\cdot x).$
+  \end{enumerate}
+  We see that a group action induces a homomorphism $G\to Aut(X)$ given by $g\to \varphi_g$
+
+  \subsection{Orbit, Stabilizer, Normalizer, Centralizer, Center}
+  Let $G$ act on $X$ from the left and $S\subseteq X$.
+  
+  \noindent The \textbf{orbit} is of an element $x\in X$ is $G\cdot x = \{g\cdot x\mid g\in G\}$.
+  \begin{enumerate}
+    \item Orbits are disjoint and they partition $X$. That is $\sqcup_{i\in I} G\cdot x_i = X$ for some indexing set $I$ and $x_i$ representatives of the disjoint orbits of $X$.
+  \end{enumerate}
+
+  \noindent The \textbf{stabilizer} of an element $x\in X$ is $G\cdot x=  \{g\in G\mid g\cdot x=x\}$.
+  \begin{enumerate}
+  \item If $s\in S$ and $g\in G$, then clearly $gh\cdot s = gh'\cdot s$ for all $h,h'\in G_S$. In this way their is a bijection $G/G_S\to S$ given by $gG_S\to g\cdot s$. Thus
+    \[[G:G_s] = \abs{G\cdot S}.\]
+    In particular if $G$ operates by conjugation on the set $\{H\leq G\}$ then $G_H = \{g\in G\mid gHg^{-1}=H}= N_G(H)$ is the normalizer of $H$ in $G$, so that the number of conjugate subgroups of $H$ is $[G:N_G(H)]$.
+  
+
+  We no longer consider group actions. Let $S\subseteq G$ not necessarily a subgroup.
+
+  \[
+    C_G(S)\trianglelefteq N_G(S)\leq G
+  \]
+  
+  \noindent The \textbf{normalizer} is $N_G(S) = \{g\in G\mid gSg^{-1}\in S\forall s\in S\}$. One can also think of the normalizer as the largest subgroup of $G$ whose elements fix $S$ under conjugation.
+  \begin{enumerate}
+    \item If $S\trianglelefteq G$ then $N_G(S)=G$.
+  \end{enumerate}
+
+  \noindent The \textbf{centralizer} is $C_G(S) = \{g\in G\mid gsg^{-1}=s \forall s\in S\}$. This is the largest subgroup of $G$ whose elements commute with those of $S$. 
+  
+  \noindent If instead $G$ acts on itself, the \textbf{center} of $G$ is $Z(G) = C_G(G)$. This is the subgroup of elements in $G$ that commute with every other element.
+  
+  \subsection{Orbit-Stabilizer Theorem, and  the Class Equation}
+  Let $G$ be a finite group and suppose $G$ acts on $X$ from the left. Then since orbits partition $X$ and $\abs{G\cdot x} = [G:G_x]$ we have
+  \begin{proposition}
+    \abs{X} = \sum_{i\in I} [G:G_{x_i}].
+  \end{proposition}
+  If $G$ acts on $X=G$ by conjugation, the fixed elements of $X$ are those elements in $Z(G)$ so we have
+  \begin{theorem}[Class Equation]
+    Let $G$ by a finite group acting on itself by conjugation. Then
+    \[\abs{G} = \sum_{x\in C} [G:G_x] = \abs{Z(G)} + \sum_{x\in C'} [G:nG_x]\]
+    where $C$ is a set of representatives for the disjoint conjugacy classes of $G$ and $C'=C\setminus \{Z(G)\}$.
+  \end{theorem}
+
+ \section{Sequences}
+  A sequence
+  \[
+    0\xrightarrow{f_1}G_1 \xrightarrow{f_2}\ldots\xrightarrow{f_{n-1}} G_{n-1}\xrightarrow{f_{n}} 0
+  \]
+  of subgroups is \textbf{exact} if $\im(f_i)=\ker(f_{i+1})$ for all $i\in 1,\ldots, n$. A \textbf{short exact sequence (SES)} is an exact sequence of three groups (not including the $1$s), i.e. an exact sequence
+  \[
+    1\to G'\xrightarrow{g}G\xrightarrow{f} G''\to 1.
+  \]
+  For any SES as above, $g$ is injective and $f$ is surjective. Further we see that since $g$ is injective, $\im g\cong G'$.
+  \begin{proposition}
+    The sequence
+    $
+      0\to G'\xrightarrow{g}G\xrightarrow{f} G''\to 0.
+    $
+    is exact iff $G/G'\cong G''$.
+  \end{proposition}
+  From this we obtain another key concept in understanding the structure of groups.
+  \begin{defi}
+    An \textbf{extension} of a group $H$ by a group $K$ is a group $G$ that fits into the SES
+    \[
+      1\to K\to G\to H\to 1.
+    \]
+    By the below we note that $G$ is not unique given $H,K$ unless the sequence splits (this is the \textbf{extension problem}).
+  \end{defi}
+  In some sense such a SES acts as a witness to $G$ being an extension of $H$, and this definition is equivalent to $H$ being a quotient of $G$.
+  \begin{rmk}
+    Any extension $1\to K\to G\to H\to 1$ is equivalent to the quotient operation by the image of $K$ reducing $G$ to $H$. This is important in any group defined as a chain of extensions, and happens \textit{regardless} of the type of extension, i.e. of whether $G$ splits as a direct product, a semi-direct product, or otherwise.
+  \end{rmk}
+  
+  
+  We note that in general for groups if $G'\cong G$ and $G/G'\cong G''\cong H/H'$, it need not be the case that $G\cong H$. Indeed we have the   We note that in general for groups if $G'\cong G$ and $G/G'\cong G''\cong H/H'$, it need not be the case that $G\cong H$. Indeed we have the following counterexample:
+following counterexample:
+   \[\begin{tikzcd}
+	0 & {\mathbb{Z}/4\mathbb{Z}} & {\mathbb{Z}/4\mathbb{Z}\times \mathbb{Z}/2\mathbb{Z}} & {\mathbb{Z}/2\mathbb{Z}} & 0 \\
+	0 & {\mathbb{Z}/4\mathbb{Z}} & {\mathbb{Z}/8\mathbb{Z}} & {\mathbb{Z}/2\mathbb{Z}} & 0
+	\arrow[hook, from=1-2, to=1-3]
+	\arrow[two heads, from=1-3, to=1-4]
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-4, to=1-5]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-4, to=2-5]
+	\arrow[hook, from=2-2, to=2-3]
+	\arrow[two heads, from=2-3, to=2-4]
+	\arrow["\cong"{description}, from=1-4, to=2-4]
+	\arrow["\cong"{description}, from=1-2, to=2-2]
+	\arrow[from=1-3, to=2-3]
+      \end{tikzcd}\]
+      With the following splitting theorems in mind we might begin to see why exactly the intuition fails. The idea is that subgroups might lie within a group, but unless their structure is specific (equivalent to normality), there is no semi-direct (or direct) product. The direct product requires that $NH=G$ and that $(n,h)(n',h')=(nn',hh')$, this condition is equivalent to $nhn'h'=nn'hh'$ which holds in the case where both $N,H\trianglelefteq G$. This follows from the normality of the groups and their trivial intersection, since by normality of $n$, $nh=h'n$, and of h, $nh=hn'$, so that $h^{-1}h'n(n')^{-1}=1$ and so either all elements are $e$ or $h=h', n=n'$ and so $nh=hn$. NOTE: this is not the same as $NH$ abelain. This shows that indeed all properties are required for the direct product.
+      
+    We might be curious then the conditions for a left (or right) split SES to actually split in a certain way. In an abelian category (for instance the category of abelian groups, or by extension modules), we have the following theorem
+    \begin{theorem}
+      Let $0\to A\xrightarrow{f} B\xrightarrow{g} C\to 0$ be a short exact sequence in an abelian category, then the following are equivalent
+      \begin{enumerate}
+       \item The sequence splits left, i.e. there exists a mapping  $\varphi:B\to A$ such that $\varphi\circ f=id_A$ (a left inverse, though a right inverse need not exist).
+       \item The sequence splits right, i.e. there exists a mapping $\psi:B\to C$ such that $g\circ \psi=id_C$ (a right inverse, though a left inverse need not exist).
+       \item There exists an isomorphism $h:B\to A\bigoplus C$ such that $h\varphi$ is the natural injection $A\to A\bigoplus C$ and $\psi h^{-1}$ is the natural projection of the direct sum onto $C$.
+      \end{enumerate}
+    \end{theorem}
+     
+      In other words, left and right splitting are equivalent for SES's in an abelian category (we simply call them \textbf{split}), and such sequences split as direct sums. It is sufficent for $B$ to be abelian in the category of groups for this theorem to apply. However in the category of groups generally, this theorem does not hold. Instead, we have the following theorem:
+      \begin{theorem}
+        Let $0\to A\to B\to C\to 0$ be a SES of groups. The following are equivalent:
+        \begin{enumerate}
+        \item There is a homomorphism $\varphi:B\to A$ such that $\varphi\circ f =id_A$
+        \item There is an isomorphism $h:B\to A\times C$ such that the diagram
+        \[\begin{tikzcd}
+         1 & A & B & C & 1 \\
+	 1 & A & {A\times C} & C & 1
+	 \arrow[from=1-1, to=1-2]
+	 \arrow["f", from=1-2, to=1-3]
+	 \arrow["g", from=1-3, to=1-4]
+	 \arrow[from=1-4, to=1-5]
+	 \arrow[from=2-1, to=2-2]
+	 \arrow[from=2-2, to=2-3]
+	 \arrow[from=2-3, to=2-4]
+	 \arrow[from=2-4, to=2-5]
+	 \arrow["id"', dashed, from=1-4, to=2-4]
+	 \arrow["id"', dashed, from=1-2, to=2-2]
+	 \arrow["h"', from=1-3, to=2-3]
+        \end{tikzcd}\]
+        commutes, and the bottom row is the SES for the direct product.
+       \end{enumerate}
+     \end{theorem}
+     \begin{proof}
+       $(1)\Rightarrow(2)$ Suppose we have a homomorphism $\varphi:B\to A$ so that $f\circ \varphi=id_A$. Let $h:B\to A\times C$ by $b\to (\varphi(b), g(b))$. Then $h$ is a homomorphism by its component mappings. Clearly $\varphi$ is surjective so that $A\cong B/\ker \varphi$ and the cosets of varphi are of the form $f(a)\ker\varphi$.  Since the cosets partition $B$ and  $g(f(a)\ker \varphi)=g(\ker \varphi)$ for all $a\in A$ we must have $g(\ker \varphi)=C$. Then let $(a,c)\in A\times C$. By the above there neccesarily exists $x\in \ker \varphi$ so that \[h(f(a)x)=(\varphi(f(a))\varphi(x), g(f(a))g(x))=(a,c)\], so $h$ is surjective. By the same logic $h(x)=h(f(a)y)=(a, g(y))=(1,1)$ iff $a=1$, $g(y)=1$. Since $y\in\ker \varphi\cong B$, $y=1$ and we are done. The commutativity of the diagram follows directly.
+       $(2)\Rightarrow(1)$ Suppose we have $h:B\to A\times C$ an isomorphism as above. For $x\in B$ by the commutativity of the second square $id_c(g(x)) = g(x) = \pi_2(h(x))$ is the second coordinate of $h(x)$. Let $k(x)$ denote the first coordinate, so that $h(x)=(k(x),g(x))$. Then $k:B\to A$ is a function, but since $h$ is a homomorphism by $x,y\in B$ we must have \[(k(xy),g(xy))=h(xy)=h(x)h(y)=(k(x)k(y),g(x)g(y))\], so $k$ is a hom. Then by the first square for $a\in A$ we have \[(k(h(a)),g(h(a)))=(k(h(a)),1)=h(f(a))=\pi_1(id_A(a))=\pi_1(a)=(a,1)\] so that $k(h(a))=a$ for all $a\in A$, and thus $k$ is our left inverse.
+     \end{proof}
+     \begin{rmk}
+       We observe that for every short exact sequence $A\cong \im (f)\trianglelefteq B$, but indeed we see by the above proof that if such a sequence splits left, $(\im A)^c\trianglelefteq B$ and further $(\im A)^c\cong C$, so that in some sense $A,C\triangelefteq B$ and $A\cap C=\{e\}$, and so split left SES's yield an equivalent condition to the usual $A,C\trianglelefteq B, A\cap C=\{e\}, AC=B\Rightarrow A\times C\cong B$.
+     \end{rmk}     
+     The equivalent for right-split SES's is:
+     \begin{theorem}
+        Let $0\to A\to B\to C\to 0$ be a SES of groups. The following are equivalent:
+        \begin{enumerate}
+        \item There is a homomorphism $\psi:B\to C$ such that $g \circ \psi=id_C$
+        \item There is a homomorphism $v:C\to \aut A$ and isomorphism $h:B\to A\rtimes C$ such that the diagram
+        \[\begin{tikzcd}
+         1 & A & B & C & 1 \\
+	 1 & A & {A\rtimes C} & C & 1
+	 \arrow[from=1-1, to=1-2]
+	 \arrow["f", from=1-2, to=1-3]
+	 \arrow["g", from=1-3, to=1-4]
+	 \arrow[from=1-4, to=1-5]
+	 \arrow[from=2-1, to=2-2]
+	 \arrow[from=2-2, to=2-3]
+	 \arrow[from=2-3, to=2-4]
+	 \arrow[from=2-4, to=2-5]
+	 \arrow["id"', dashed, from=1-4, to=2-4]
+	 \arrow["id"', dashed, from=1-2, to=2-2]
+	 \arrow["h"', from=1-3, to=2-3]
+        \end{tikzcd}\]
+        commutes, and the bottom row is the SES for the semi-direct product. The proof is in the same manner as above.
+       \end{enumerate}
+     \end{theorem}
+     \begin{proof}
+       $(1)\Rightarrow (2)$ Suppose we have a homormophism $\psi:B\to C$ so that $g\circ \phi=id_C$. Because $f(A)=\ker g$ we must have $f(A)\trianglelefteq B$, whence for all $c\in C$, $a\in A$ we must $\psi(c)f(a)\psi(c)^{-1}\in f(A)$. Further due to injectivity $f$ induces an isomorphism $A\cong \im A$, so that its inverse restriced to $f(A)$ exists. Let $v:C\to \aut A$ by $c\to v_c$ where for $a\in A$, $v_c(a) = f_{\im A}^{-1}(\psi(c)f(a)\psi(c)^{-1})$. It follows from $f$ a homomorphism that $v$ is a homomorphism. Further the cancellation law gaurentees injectivity as $v_c(a)=v_c(a')\iff a=a'$, and the normality of $f(A)$ gaurentees surjectivity by $xf(A)x^{-1}=f(A)$. Thus $v$ is our desired mapping $C\to \aut A$.
+       Define $h':A\rtimes C\to B$ by $h'(a,c)=f(a)\psi(c)$. Then
+       \[
+         h'((a,c)(a',c'))=h'(av_c(a'),cc')=f(av_c(a'))\psi(c)\psi(c')=f(a)\psi(c)f(a')\psi(c)^{-1}\psi(c)\psi(c')
+         \]\[=f(a)\psi(a)f(a')\psi(a')=h'(a,c)\cdot h'(a',c').
+  y     \]
+       so that $h'$ is a homomorphism. Injectivity follows from the injectivity of $f,\psi$ and the trivial intersection of their images. Further since $\im A\trianglelefteq B$ any $b\in B$ is of the form $xf(a)$, but since $\im A=\ker g$ and $B/\im A\cong C$ it follows that $x\in \im \psi$, whence $h'$ is surjective and an isomorphism. We may simply take $h=(h')^{-1}$ and the remaining parts of the diagram are easy to check.
+     \end{proof}
+     We should note that there is always a \textit{function}, rather trivially, in the direction of the splits above ($B\to A$, $C\to B$) whos composition with the respective homomorphisms is the identity \textit{mapping}. This is not enough to prove the isomomorphisms however. Indeed only when those mappings are homomorphisms do our theorems hold.
+     
+     
+ \section{Sylow Theorems}
+ Let $G$ be a finite group. A $p$-group is a group with order $p^k$ for some integer $k$, and a $p$-subgroup similarly. A $p$-Sylow subgroup of order $p^n$ for the maximal power of $p$ dividing the order of $G$.  The $p$-Sylow subgroups tell us about the structure of finite groups and their $p$-subgroups.
+ We have some general results as follows:
+ \begin{proposition}
+   Let $G$ be a finite group, and $p$ denote a prime number dividing the order of $G$. Then the following propsitions hold:
+ \begin{enumerate}
+ \item $G$ has a $p$-Sylow subgroup.
+ \item $G$ has a subgroup of order $p$.
+ \item Every $p$-subgroup of $G$ is contained in a $p$-Sylow subgroup.
+ \item All $p$-Sylow subgroups of $G$ are conjugate.
+ \item The number of $p$-Sylow subgroups of $G$ is $\equiv 1\mod{p}$.
+ \end{enumerate}
+ \end{proposition}
+
+ \section{Direct and Semi-Direct Products}
+ \begin{defi}
+   Let $G$ be a group and $N,H\leq G$. The following are equivalent to $G$ being a \textbf{direct product}.
+   \begin{enumerate}
+   \item $G=N\times H=\{(x,y)\mid x\in N, y\in H\}$ where the group operation is defined componentwise.
+   \item $N,H\trianglelefteq G$, $N\cap H=\{e\}$, and $NH=\{xy\mid x\in N, y\in H\}=G$.
+   \item The SES $1\to N\to G\to H\to 1$ is left split.
+   \end{enumerate}
+   Alternatively we may consider the product of two groups in the same way.
+ \end{defi}
+ We recall that the direct product induces the like projections onto its factors.
+
+ The Semi-Direct product is in some ways a weaker form of the direct product, in the sense that every direct product is a semi-direct product.
+ \begin{defi}
+ \begin{enumerate}
+   Let $G$ be a group and $N,H\leq G$. The following are equivalent to $G$ being an \textbf{inner semi-direct product}.
+   \item $G=N\rtimes_v H=\{(x,y)\mid x\in N, y\in H\}$ where the morphism $v:H\to \aut N$ given by $h\to v_h$ where for $n\in N$, $v_h(n)=hnh^{-1}$ defines the group operation
+   \[(n,h)(n',h') = (nv_h(n'),hh').\]
+   \item $N\trianglelefteq G$, $N\cap H=\{e\}$, and $NH=G$.
+   \item The SES $1\to N\to G\to H\to 1$ is right split.
+ \end{enumerate}
+ Alternatively we may consider the \textbf{outer semidirect product} in the same way, with the exception of $v_h(n)$ not being directly defined.
+\end{defi}
+It is important to note that the inner semi-direct product is unique, i.e. all inner semi-direct products defined for some morphism $v:H\to \aut N$ will be isomorphic. On the other hand, there is no uniqueness for outer semi-direct products which are dependend on their morphisms.
+
+For abelian groups we have the following theorem, where $A_{(p)}$ is the set of elements of $A$ anhillated by a power of $p$ for some prime $p$.
+\begin{theorem}
+  Let $A$ an abelian group and $A_{(p)}$ defined as above, then
+  \[A\cong \bigoplus_{p\text{ prime}} A_{(p)}.\]
+\end{theorem}
+The above theorem is particularly useful for finite groups, because they must be a direct sum of finite summands, in which case the direct sum is isomorphic to the direct product. In this case the theorem is equivalent to saying every finite abelian group splits as a direct product over its $p$-Sylow subgroups.
+
+
+\section{Filtrations, Derived Series, Composition Series}
+  A (increasing) \textbf{filtration} for a group $G$ is a chain of subgroups
+  \[e=G_0\leq G_1\leq G_2\leq \cdots\leq G.\]
+  A (descending) filtration for $G$ is a chain
+  \[
+    \cdots\leq G_2\leq G_1\leq G_0=G.\]
+  Such chains can be finite or infinite, and they needn't terminate. A factor of a filtration is the quotient of a group by the group directly below it.
+  \begin{enumerate}
+   \item A filtration is subnormal if each term is normal in the term above it.
+   \item A filtrartion is normal if each term is normal in $G$.
+   \item A filtration is abelian if it is subnormal and all of its factors are abelian.
+   \item A filtration is cyclic if it is subnormal and all of its factors are cyclic.
+   \item A filtration is finite if it has only finitely many terms.
+  \end{enumerate}
+  A refinement to a filtration is another filtration obtained by extending it with more subgroups. We have some basic results about filtrations.
+  \begin{proposition}
+    \begin{enumerate}
+    \item Any finite abelian group $G$ admits a cyclic filtration.
+    \item If $G$ has an abelian filtration, it admits a cyclic refinement.
+    \end{enumerate}
+  \end{proposition}
+  
+  Let $G$ be a group, the notion of a commutator subgroup measures in some sense how un-abelian subgroups of $G$ are.
+  \begin{defi}
+    Let $H,K\leq G$. The \textbf{commutator subgroup} $[H,K]\leq G$ is the group of all elements $hkh^{-1}k^{-1}$ where $h\in H$, $k\in K$. The \textbf{derived subgroup} $G^{(0)}$ of $G$ is the commutator $[G,G]$.
+  \end{defi}
+  If $H,K\trianglelefteq G$ then $[H,K]\trianglelefteq G$. The derived subgroup $[G,G]$ is the smallest (normal) subgroup $H$ of $G$ so that the quotient $G/H$ is abelian. We gain the following definition
+  \begin{defi}
+    The \textbf{derived series} for a group $G$ is the (subnormal and abelian) filtration
+    \[
+      \cdots \leq G^{(2)}=[G^{(1)}, G^{(1)}]\trianglelefteq G^{(1)}=[G^{(0)},G^{(0)}]\trianglelefteq G^{(0)}=G.\]
+    $G$ is called \textbf{solvable} if $\exists i\in \N_{>0}$ such that $G^{(i)}=\{e\}$.
+  \end{defi}
+  \begin{theorem}
+    Let $G$ be a finite group. The following are all equivalent:
+  \begin{enumerate}
+    \item $G$ has an abelian filtration.
+    \item $G$ has a cyclic filtration.
+    \item $G$ has a descending abelian filtration that terminates at $e$.
+    \item $G$ is solvable.
+    \end{enumerate}
+  \end{theorem}
+
+  A group $G$ is called simple if it has no normal subgroups. In this sense, a simple group is irreducible since it has no non-trivial quotients. We then have the following definition.
+  \begin{defi}
+    A \textbf{composition series} for $G$ is a \textit{finite} subnormal filtration
+    \[
+      1=G_0\triangleleft G_1\triangleleft\cdots\triangleleft G_{n-1}\triangleleft G_n=G
+    \]
+    where the quotients $G_{i+1}/G_i$ are simple. Alternatively, it is a finite subnormal filtration such that $G_{i-1}$ is a maximal normal subgroup of $G_i$. We note that all inclusions are proper.
+  \end{defi}
+  The following result establishes the importance of such series:
+  \begin{theorem}[Jordan-Holder]
+    Let $G$ be a group and suppose it has a composition series. Let
+    \begin{align*}
+      1=G_0\triangleleft G_1\triangleleft\cdots\triangleleft G_{n-1}\triangleleft G_n=G \\
+      1=H_0\triangleleft H_1\triangleleft\cdots\triangleleft H_{s-1}\triangleleft H_s=G
+    \end{align*}
+    be two composition series for $G$. Then $n=s$ and the sets of factors for each series are equal up to isomorphism.
+  \end{theorem}
+  It is important to note that this theorem relies on the finite length of compositions series. The theorem offers an invariant quality to composition series, and with the classification of all finite groups and the following result concerning the existence of composition series for all finite groups, it gives an invariant description of the structure of finite groups. Indeed we have
+  \begin{theorem}
+    Let $G$ be a finite group. Then $G$ has a composition series.
+  \end{theorem}
+  With this in mind we can build every finite group as a set of extensions by simple groups. This reduces the classification of finite groups to solving the extension problem, in other words the structure of the groups of groups that fit into a SES after fixing the first and last groups.
+
+  
+  A stronger result, from which the Jordan-Holder theorem follows directly, is the so called \textbf{Schrier Refinement Theorem}.
+  \begin{theorem}[Schreier Refinment Theorem]
+    Let $G$ be a group. Any two subnormal series of $G$ admit refinements that are equivalent in the sense that their is a bijection between there factors such that each pair of factors is equivalent.
+  \end{theorem}
+  By the definition of a composition series it admits no structure preserving refinements (by the simplicity of the factors), thus any composition series for a fixed group $G$ must be equivalent.
+
+\section{Nilpotent groups, Central Series}
+Considering groups from the view of extensions, we might wish to understand groups that generalize being abelian. We might consider the extension $E$ of a group $G$, that is a SES $1\to A\to E\to G\to 1$, where we require the addition condition that $A$ (viewed in the following as the image of the injective mapping) is \textbf{central} in $E$, that is $A\leq Z(E)$. In particular, since $A\leq E$, $A$ is abelian. Such an extension is called a \textbf{central extension}. We see that the abelian groups are precisely the central extensions of the trivial group. It turns out that the groups which are formed by repeated central extensions from the trivial group are very important. We will define them inductively to give a clear intuition, and then give more direct equivalent definitions.
+\begin{defi}
+  We define the class of \textbf{nilpotent} groups inductively by the following:
+  \begin{enumerate}
+  \item The trivial group is nilpotent
+  \item If $1\to A\to E\to G\to 1$ is a central extension (so that in particular $A$ is abelian), and $G$ is nilpotent, then $E$ is nilpotent.
+  \end{enumerate}
+\end{defi}
+Thus a specific nilpotent must be built inductively by a finite number of central extensions of an abelian group. In this manner we characterize the extensions that build such a group by a series.
+\begin{defi}
+  Let $G$ be a group. A \textbf{central series} for a group $G$ is build inductively by the following:
+  \begin{enumerate}
+  \item the trivial group $\{1\}$ has a specific central series, called the trivial one.
+  \item From any central extension $1\to G'\to G\to G''\to 1$ and any central series of $G''$, we obtain a central series of $G$, called an \textit{extension} of the of the given one for $G''$.
+  \end{enumerate}
+\end{defi}
+In this way central series provide witness for nilpotency. Given a SES of the form $1\to K\to G/N \to H\to 1$ we have by the fourth isomorphism theorem $K\cong K'/N$ for $K'\leq G$. Then by the third isomorphism theorem the sequence is equivalent to $1\to K'/N\to G/N\to G/K'\to 1$. If we expand out the inductive definition of a central series backward using this property we obtain
+\begin{gather*}
+  1\to G_1\to G\to G/G_1\to 1\\
+  1\to G_2/G_1\to G/G_1\to G/G_2\\
+  1\to G_3/G_2\to G/G_2\to G/G_3\\
+  \ldots\\
+  1\to G/G_{n-1}\to G/G_{n-1}\to G_n/G_n=1\to 1
+\end{gather*}
+Which terminates due to the inductive nature of the definition. By the definition of a SES we have $G_1\trianglelefteq G$, and by the forth isomorphism theorem $G_i/G_{i-1}\trianglelefteq G/G_{i-1}$ implies $G_i\trianglelefteq G$. We then obtain a normal series
+\[1=G_0\trianglelefteq G_1\trianglelefteq \cdots\trianglelefteq G_{n-1}\trianglelefteq G_n=G,\]
+where by the definition of a central extension $G_{i+1}/G_i\leq Z(G/G_i)$. Thus we find this definition equivalent to the usual definition
+\begin{defi}
+  A \textbf{Nilpotent} group is a group $G$ for which there exists a \textbf{central series}. In other words a normal filtration
+  \[1=G_0\triangleft G_1\triangleleft \cdots \triangleleft G_{n-1}\triangleleft G_n=G\]
+  where $G_{i+1}/G_i\leq Z(G/G_i)$, or equivalently $[G,G_{i+1}]\leq G_i.$
+\end{defi}
+There are actually more equivalent definitions.
+
+
+
+  
+  
+  
+\end{singlespace}
+\end{document}
+
